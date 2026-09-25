@@ -9,3 +9,12 @@ create table if not exists public.hausliga_results (
 );
 alter table public.hausliga_results enable row level security;
 -- No anonymous access: the Vercel server reads and writes with a server-only key.
+
+-- Also run this block for the final round. Existing league results stay unchanged.
+create table if not exists public.hausliga_final_results (
+  team_id smallint primary key check (team_id between 1 and 10),
+  rows jsonb not null,
+  tiebreak jsonb not null default '[]'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.hausliga_final_results enable row level security;
