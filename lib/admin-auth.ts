@@ -14,9 +14,11 @@ export function token() {
   return `${expiry}.${signature}`;
 }
 export function authenticated(request:NextRequest) {
+  return validSession(request.cookies.get(cookieName)?.value);
+}
+export function validSession(value?:string) {
   if (!authConfigured()) return false;
-  const value=request.cookies.get(cookieName)?.value ?? "";
-  const [expiry,signature,...rest]=value.split(".");
+  const [expiry,signature,...rest]=(value??"").split(".");
   if (rest.length || !/^\d{10}$/.test(expiry??"") || !/^[a-f0-9]{64}$/.test(signature??"") || Number(expiry)<Date.now()/1000) return false;
   const expected=createHmac("sha256",secret()!).update(expiry).digest("hex");
   return equal(signature,expected);
