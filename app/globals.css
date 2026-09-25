@@ -23,3 +23,13 @@
 .home-hero h1 span{color:#e6f7a1}.home-hero p{margin:18px 0 0;color:#b5c6da;font-size:clamp(16px,1.6vw,21px);line-height:1.4}
 .home-hero-trophy{flex:none;width:112px;height:112px;display:grid;place-items:center;border-radius:30px;background:#26384e;border:1px solid #495a70;color:#e6f7a1;transform:rotate(8deg)}
 @media(max-width:600px){.home-hero{align-items:flex-start;gap:12px}.home-hero h1{font-size:clamp(36px,9vw,58px)}.home-hero p{margin-top:12px}.home-hero-trophy{width:62px;height:62px;border-radius:18px;margin-top:4px}.home-hero-trophy svg{width:29px;height:29px}}
+/* Bowling lanes and sponsor artwork on the home page. */
+.home-visual{display:grid;grid-template-columns:minmax(0,1fr) 244px;gap:16px;align-items:stretch}
+.home-visual .home-hero{min-height:278px;position:relative;overflow:hidden;isolation:isolate;border-radius:18px;border:1px solid #385066;padding:30px;align-items:flex-end;background:#142338}
+.home-visual .home-hero::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(90deg,#0b1422 0%,#0b1422eb 43%,#0b1422a8 70%,#0b142247 100%),url('/bowling-lanes.webp');background-repeat:no-repeat;background-size:cover,auto 430px;background-position:center,right bottom}
+.home-visual .home-hero h1{font-size:clamp(42px,5.3vw,74px);max-width:740px;text-wrap:balance}
+.home-visual .home-hero p{max-width:650px;color:#e4ebf3}
+.home-sponsor{display:grid;place-items:center;overflow:hidden;min-height:278px;border-radius:18px;border:1px solid #2d8a7e;background:#007c6f;padding:12px}
+.home-sponsor img{display:block;width:100%;height:auto;max-height:252px;object-fit:contain}
+@media(max-width:760px){.home-visual{grid-template-columns:1fr}.home-visual .home-hero{min-height:260px}.home-sponsor{min-height:0;padding:12px}.home-sponsor img{width:165px;max-height:145px}}
+@media(max-width:600px){.home-visual .home-hero{padding:23px;min-height:285px}.home-visual .home-hero::before{background-size:cover,auto 440px;background-position:center,right bottom}.home-visual .home-hero h1{font-size:clamp(36px,9vw,54px)}}
