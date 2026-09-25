@@ -17,3 +17,9 @@
 .next-group-table tbody tr:nth-child(even),.all-players tbody tr:nth-child(even),.final-group tbody tr:nth-child(even),.match-details tbody tr:nth-child(even){background:#a63d3910}
 .next-group-table tbody tr:first-child td:first-child,.final-group tbody tr:first-child td:first-child{color:#ed9691;font-weight:800}
 .next-group-table td,.all-players td,.final-group td,.match-details td{border-top-color:#533c4c}
+
+.home-hero{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:10px 0 4px}
+.home-hero h1{margin:0;font-size:clamp(42px,6vw,88px);line-height:1.05;letter-spacing:-.055em;font-weight:800;color:#f5f8fc}
+.home-hero h1 span{color:#e6f7a1}.home-hero p{margin:18px 0 0;color:#b5c6da;font-size:clamp(16px,1.6vw,21px);line-height:1.4}
+.home-hero-trophy{flex:none;width:112px;height:112px;display:grid;place-items:center;border-radius:30px;background:#26384e;border:1px solid #495a70;color:#e6f7a1;transform:rotate(8deg)}
+@media(max-width:600px){.home-hero{align-items:flex-start;gap:12px}.home-hero h1{font-size:clamp(36px,9vw,58px)}.home-hero p{margin-top:12px}.home-hero-trophy{width:62px;height:62px;border-radius:18px;margin-top:4px}.home-hero-trophy svg{width:29px;height:29px}}
