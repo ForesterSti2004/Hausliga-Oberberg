@@ -32,6 +32,6 @@
 @media(max-width:760px){.home-visual .home-hero{min-height:260px}}
 @media(max-width:600px){.home-visual .home-hero{padding:23px;min-height:285px}.home-visual .home-hero::before{background-size:cover,auto 440px;background-position:center,right bottom}.home-visual .home-hero h1{font-size:clamp(36px,9vw,54px)}}
 
-.header-sponsor{display:flex;align-items:center;gap:13px;flex:none;color:#fff;font-size:15px;font-weight:700;letter-spacing:.02em}
+.header-sponsor{display:flex;align-items:center;flex:none}
 .header-sponsor img{display:block;width:88px;height:76px;object-fit:contain;border-radius:11px}
-@media(max-width:600px){.header-sponsor span{display:none}.header-sponsor img{width:61px;height:54px}.topbar{gap:12px}}
+@media(max-width:600px){.header-sponsor img{width:61px;height:54px}.topbar{gap:12px}}
