@@ -1,6 +1,6 @@
 -- Run once in the SQL editor of the Supabase project used for this league.
 create table if not exists public.hausliga_results (
-  team_id smallint not null check (team_id between 1 and 10),
+  team_id smallint not null check (team_id between 1 and 11),
   day smallint not null check (day between 1 and 10),
   rows jsonb not null,
   baker jsonb not null,
@@ -12,7 +12,7 @@ alter table public.hausliga_results enable row level security;
 
 -- Also run this block for the final round. Existing league results stay unchanged.
 create table if not exists public.hausliga_final_results (
-  team_id smallint primary key check (team_id between 1 and 10),
+  team_id smallint primary key check (team_id between 1 and 11),
   rows jsonb not null,
   tiebreak jsonb not null default '[]'::jsonb,
   updated_at timestamptz not null default now()

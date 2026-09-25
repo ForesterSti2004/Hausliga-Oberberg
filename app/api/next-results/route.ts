@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fixtures,roundCount } from "@/lib/next-season";
+import { fixtures,roundCount,teamIds } from "@/lib/next-season";
 import { authenticated, validOrigin } from "@/lib/admin-auth";
 import { loadResults,saveResults } from "@/lib/results-store";
 
@@ -20,7 +20,7 @@ export async function PUT(request:NextRequest){
   try{
     const body=await request.json() as Input;
     const playing=fixtures.some(f=>f.day===body.day && f.left!==0 && f.right!==0 && (f.left===body.teamId||f.right===body.teamId));
-    if(!Number.isInteger(body.teamId)||body.teamId<1||body.teamId>10||!Number.isInteger(body.day)||body.day<1||body.day>roundCount||!playing||!Array.isArray(body.rows)||body.rows.length!==5||new Set(body.rows.map(r=>r.slot)).size!==5||body.rows.some(r=>!Number.isInteger(r.slot)||r.slot<0||r.slot>4||typeof r.name!=="string"||r.name.length>80||!["","m","w"].includes(r.gender)||!validGames(r.games)||(r.games.some(v=>v!==null)&&!r.name.trim()))||!validGames(body.baker)||[0,1,2].some(game=>body.rows.filter(r=>r.games[game]!==null).length>3))return NextResponse.json({error:"Mannschaft und Spieltag prüfen. Je Spiel höchstens drei Spieler und nur Pinzahlen von 0 bis 300 eintragen."},{status:400});
+    if(!Number.isInteger(body.teamId)||![...teamIds(1),...teamIds(2)].includes(body.teamId)||!Number.isInteger(body.day)||body.day<1||body.day>roundCount||!playing||!Array.isArray(body.rows)||body.rows.length!==5||new Set(body.rows.map(r=>r.slot)).size!==5||body.rows.some(r=>!Number.isInteger(r.slot)||r.slot<0||r.slot>4||typeof r.name!=="string"||r.name.length>80||!["","m","w"].includes(r.gender)||!validGames(r.games)||(r.games.some(v=>v!==null)&&!r.name.trim()))||!validGames(body.baker)||[0,1,2].some(game=>body.rows.filter(r=>r.games[game]!==null).length>3))return NextResponse.json({error:"Mannschaft und Spieltag prüfen. Je Spiel höchstens drei Spieler und nur Pinzahlen von 0 bis 300 eintragen."},{status:400});
     await saveResults({team_id:body.teamId,day:body.day,rows:body.rows.map(r=>({...r,name:r.name.trim()})),baker:body.baker});
     return NextResponse.json({ok:true});
   }catch(error){console.error("Saving results failed",error);return NextResponse.json({error:"Speichern fehlgeschlagen. Eingaben bleiben erhalten."},{status:503});}

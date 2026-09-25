@@ -3,6 +3,7 @@ import { authenticated, validOrigin } from "@/lib/admin-auth";
 import { loadResults } from "@/lib/results-store";
 import { loadFinalResults, saveFinalResult } from "@/lib/final-store";
 import { qualifiers, type FinalResult } from "@/lib/final";
+import { teamIds } from "@/lib/next-season";
 
 export const dynamic="force-dynamic";
 
@@ -17,7 +18,7 @@ export async function PUT(request:NextRequest){
   try{
     const data=await request.json() as FinalResult;
     const validScore=(n:unknown)=>n===null||(Number.isInteger(n)&&Number(n)>=0&&Number(n)<=300);
-    if(!data||!Number.isInteger(data.team_id)||data.team_id<1||data.team_id>10||!Array.isArray(data.rows)||data.rows.length!==5||new Set(data.rows.map(r=>r.slot)).size!==5||data.rows.some(r=>!Number.isInteger(r.slot)||r.slot<0||r.slot>4||typeof r.name!=="string"||r.name.length>80||typeof r.gender!=="string"||!["","m","w"].includes(r.gender)||!Array.isArray(r.games)||r.games.length!==5||!r.games.every(validScore)||(r.games.some(n=>n!==null)&&!r.name.trim()))||[0,1,2,3,4].some(i=>data.rows.filter(r=>r.games[i]!==null).length>3)||!Array.isArray(data.tiebreak)||data.tiebreak.length>20||!data.tiebreak.every(n=>n===null||(Number.isInteger(n)&&n>=0&&n<=900))){
+    if(!data||!Number.isInteger(data.team_id)||![...teamIds(1),...teamIds(2)].includes(data.team_id)||!Array.isArray(data.rows)||data.rows.length!==5||new Set(data.rows.map(r=>r.slot)).size!==5||data.rows.some(r=>!Number.isInteger(r.slot)||r.slot<0||r.slot>4||typeof r.name!=="string"||r.name.length>80||typeof r.gender!=="string"||!["","m","w"].includes(r.gender)||!Array.isArray(r.games)||r.games.length!==5||!r.games.every(validScore)||(r.games.some(n=>n!==null)&&!r.name.trim()))||[0,1,2,3,4].some(i=>data.rows.filter(r=>r.games[i]!==null).length>3)||!Array.isArray(data.tiebreak)||data.tiebreak.length>20||!data.tiebreak.every(n=>n===null||(Number.isInteger(n)&&n>=0&&n<=900))){
       return NextResponse.json({error:"Je Spiel höchstens drei Spieler mit 0 bis 300 Pins eintragen. Stechen: 0 bis 900 Pins."},{status:400});
     }
     const stored=await loadResults();

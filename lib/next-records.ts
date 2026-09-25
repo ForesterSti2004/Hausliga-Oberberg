@@ -1,4 +1,4 @@
-import { teamName, roundCount } from "./next-season";
+import { teamName, teamIds, roundCount } from "./next-season";
 import type { Score, Baker } from "./next-standings";
 
 export type RecordEntry = { key:string; pins:number; name:string; team:string; day:number; game?:number };
@@ -8,7 +8,7 @@ const topThree=(entries:RecordEntry[])=>entries.sort((a,b)=>b.pins-a.pins||a.day
 
 export function bestBoards(scores:Score[],bakers:Baker[]):Board[] {
   const teamGames:RecordEntry[]=[],men:RecordEntry[]=[],women:RecordEntry[]=[],teamDays:RecordEntry[]=[],bakerGames:RecordEntry[]=[],playerDays:RecordEntry[]=[];
-  for(let teamId=1;teamId<=10;teamId++)for(let day=1;day<=roundCount;day++) {
+  for(const teamId of [...teamIds(1),...teamIds(2)])for(let day=1;day<=roundCount;day++) {
     const rows=scores.filter(s=>s.team_id===teamId&&s.day===day);
     const baker=bakers.find(b=>b.team_id===teamId&&b.day===day);
     const normalValues:(number|null)[]=keys.map((key,game)=>{

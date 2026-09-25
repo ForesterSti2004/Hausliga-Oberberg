@@ -1,4 +1,4 @@
-import { fixtures, roundCount } from "./next-season";
+import { fixtures, roundCount, teamIds } from "./next-season";
 
 export type Score = {team_id:number;day:number;slot:number;name:string;gender:string;game_1:number|null;game_2:number|null;game_3:number|null};
 export type Baker = {team_id:number;day:number;game_1:number|null;game_2:number|null;game_3:number|null};
@@ -41,8 +41,7 @@ export function matchPoints(leftId:number,rightId:number,day:number,scores:Score
 }
 
 export function groupStandings(group:number,scores:Score[],bakers:Baker[]) {
-  return Array.from({length:5},(_,i)=>{
-    const id=(group-1)*5+i+1;
+  return teamIds(group).map(id=>{
     const matches=fixtures.filter(f=>f.group===group&&(f.left===id||f.right===id));
     const points=matches.reduce((total,f)=>{
       const p=matchPoints(f.left,f.right,f.day,scores,bakers);
