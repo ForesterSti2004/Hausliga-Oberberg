@@ -7,7 +7,7 @@ export const roundCount = 10;
 
 export function scheduleDate(day:number,group:number):string {
   const secondLeg=day>5;
-  const start=secondLeg?Date.UTC(2027,0,5):Date.UTC(2026,8,29);
+  const start=secondLeg?Date.UTC(2027,0,12):Date.UTC(2026,8,29);
   const weeks=(secondLeg?day-6:day-1)*2+(group-1);
   return new Date(start+weeks*7*24*60*60*1000).toISOString().slice(0,10);
 }
