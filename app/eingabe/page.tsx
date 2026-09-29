@@ -8,7 +8,7 @@ import { groupStandings, matchPoints, type Score, type Baker } from "@/lib/next-
 type Row = {slot:number;name:string;gender:string;games:(number|null)[]};
 const emptyRows = ():Row[] => Array.from({length:5},(_,slot)=>({slot,name:"",gender:"",games:[null,null,null]}));
 const sum = (values:(number|null)[]) => values.reduce<number>((total,n)=>total+(n??0),0);
-const played = (id:number,day:number) => fixtures.some(f=>f.day===day && f.left!==0 && f.right!==0 && (f.left===id || f.right===id));
+const played = (id:number,day:number) => fixtures.some(f=>f.day===day && (f.left===id || f.right===id));
 const formatDate = (day:number,group:number) => new Intl.DateTimeFormat("de-DE",{timeZone:"UTC",weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(new Date(`${scheduleDate(day,group)}T12:00:00Z`));
 
 export default function ComingSeason() {
