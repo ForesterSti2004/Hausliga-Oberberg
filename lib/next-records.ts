@@ -1,7 +1,7 @@
 import { teamName, teamIds, roundCount } from "./next-season";
 import type { Score, Baker } from "./next-standings";
 
-export type RecordEntry = { key:string; pins:number; name:string; team:string; day:number; game?:number };
+export type RecordEntry = { key:string; pins:number; name:string; team:string; day:number; game?:number; teamId?:number };
 type Board = { title:string; entries:RecordEntry[] };
 const keys=["game_1","game_2","game_3"] as const;
 const topThree=(entries:RecordEntry[])=>entries.sort((a,b)=>b.pins-a.pins||a.day-b.day||a.name.localeCompare(b.name,"de")).slice(0,3);
@@ -31,11 +31,11 @@ export function bestBoards(scores:Score[],bakers:Baker[]):Board[] {
       keys.forEach((key,game)=>{
         const pins=row[key];
         if(pins===null)return;
-        const entry={key:`player-${teamId}-${day}-${row.slot}-${game}`,pins,name:row.name,team:teamName(teamId),day,game:game+1};
+        const entry={key:`player-${teamId}-${day}-${row.slot}-${game}`,teamId,pins,name:row.name,team:teamName(teamId),day,game:game+1};
         if(row.gender==="m")men.push(entry);
         if(row.gender==="w")women.push(entry);
       });
-      if(keys.every(key=>row[key]!==null))playerDays.push({key:`player-day-${teamId}-${day}-${row.slot}`,pins:keys.reduce((sum,key)=>sum+(row[key]??0),0),name:row.name,team:teamName(teamId),day});
+      if(keys.every(key=>row[key]!==null))playerDays.push({key:`player-day-${teamId}-${day}-${row.slot}`,teamId,pins:keys.reduce((sum,key)=>sum+(row[key]??0),0),name:row.name,team:teamName(teamId),day});
     }
   }
   return [
