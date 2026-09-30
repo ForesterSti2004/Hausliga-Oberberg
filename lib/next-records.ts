@@ -15,16 +15,16 @@ export function bestBoards(scores:Score[],bakers:Baker[]):Board[] {
       const numbers=rows.map(r=>r[key]).filter((n):n is number=>n!==null);
       if(numbers.length!==3)return null;
       const pins=numbers.reduce((sum,n)=>sum+n,0);
-      teamGames.push({key:`team-${teamId}-${day}-${game}`,pins,name:teamName(teamId),team:teamName(teamId),day,game:game+1});
+      teamGames.push({key:`team-${teamId}-${day}-${game}`,teamId,pins,name:teamName(teamId),team:teamName(teamId),day,game:game+1});
       return pins;
     });
     if(baker) keys.forEach((key,game)=>{
       const pins=baker[key];
-      if(pins!==null)bakerGames.push({key:`baker-${teamId}-${day}-${game}`,pins,name:teamName(teamId),team:teamName(teamId),day,game:game+1});
+      if(pins!==null)bakerGames.push({key:`baker-${teamId}-${day}-${game}`,teamId,pins,name:teamName(teamId),team:teamName(teamId),day,game:game+1});
     });
     if(normalValues.every((n):n is number=>n!==null)&&baker&&keys.every(key=>baker[key]!==null)) {
       const pins=normalValues.reduce<number>((sum,n)=>sum+(n??0),0)+keys.reduce((sum,key)=>sum+(baker[key]??0),0);
-      teamDays.push({key:`team-day-${teamId}-${day}`,pins,name:teamName(teamId),team:teamName(teamId),day});
+      teamDays.push({key:`team-day-${teamId}-${day}`,teamId,pins,name:teamName(teamId),team:teamName(teamId),day});
     }
     for(const row of rows) {
       if(!row.name.trim())continue;
