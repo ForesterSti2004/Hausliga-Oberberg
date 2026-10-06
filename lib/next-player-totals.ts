@@ -7,14 +7,14 @@ export const playerKey = (teamId:number,name:string) => `${teamId}:${name.trim()
 
 export function playerHistory(scores:Score[],teamId:number,name:string):Score[] {
   const key=playerKey(teamId,name);
-  return scores.filter(row=>playerKey(row.team_id,row.name)===key&&[row.game_1,row.game_2,row.game_3].some(n=>n!==null)).sort((a,b)=>a.day-b.day||a.slot-b.slot);
+  return scores.filter(row=>row.gender!=="e"&&playerKey(row.team_id,row.name)===key&&[row.game_1,row.game_2,row.game_3].some(n=>n!==null)).sort((a,b)=>a.day-b.day||a.slot-b.slot);
 }
 
 export function playerTotals(scores:Score[]):PlayerTotal[] {
   const players=new Map<string,PlayerTotal>();
   for(const row of scores) {
     const name=row.name.trim().replace(/\s+/g," ");
-    if(!name)continue;
+    if(!name||row.gender==="e")continue;
     const values=[row.game_1,row.game_2,row.game_3].filter((n):n is number=>n!==null);
     if(!values.length)continue;
     const key=playerKey(row.team_id,name);

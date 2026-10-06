@@ -27,7 +27,7 @@ export function bestBoards(scores:Score[],bakers:Baker[]):Board[] {
       teamDays.push({key:`team-day-${teamId}-${day}`,teamId,pins,name:teamName(teamId),team:teamName(teamId),day});
     }
     for(const row of rows) {
-      if(!row.name.trim())continue;
+      if(!row.name.trim()||row.gender==="e")continue;
       keys.forEach((key,game)=>{
         const pins=row[key];
         if(pins===null)return;
