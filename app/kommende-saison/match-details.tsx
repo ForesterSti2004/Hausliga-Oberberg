@@ -5,8 +5,7 @@ import type { Baker, Score } from "@/lib/next-standings";
 const format=(value:number|null)=>value===null?"–":value.toLocaleString("de-DE");
 
 export function MatchDetails({day,left,right,scores,bakers}:{day:number;left:number;right:number;scores:Score[];bakers:Baker[]}){
-  if(left===0||right===0)return null;
-  const teams=[left,right].map(id=>{
+  const teams=[left,right].filter(id=>id!==0).map(id=>{
     const players=scores.filter(row=>row.day===day&&row.team_id===id&&[row.game_1,row.game_2,row.game_3].some(n=>n!==null)).sort((a,b)=>a.slot-b.slot);
     const baker=bakers.find(row=>row.day===day&&row.team_id===id);
     const bakerGames=baker?[baker.game_1,baker.game_2,baker.game_3]:[null,null,null];
